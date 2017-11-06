@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "browser-sync": "^2.18.13",
+    "gulp-sass": "^3.1.0"
+  }
+}

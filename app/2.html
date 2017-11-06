@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intersection Observer</title>
+    <style>
+        :root {
+            --standard-padding: 10px;
+        }
+
+        main {
+            display: flex;
+            height: 50vh;
+            border: 1px solid #9e9e9e;
+        }
+
+        section {
+            display: inline-block;
+            padding: var(--standard-padding);
+            width: 100%;
+        }
+
+        .sticky.shadow {
+            box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, .12), 0 1px 1px 0   rgba(0, 0, 0, .24);
+            display: inline-block;
+            height: 30px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section>
+            <div class="sticky shadow"></div>
+        </section>
+    </main>
+</body>
+</html>
