@@ -1,16 +1,52 @@
+.bg-color--city_lights {
+  background-color: var(--city_lights);
+  color: var(--text-color--light); }
+
+.bg-color--money_carp {
+  background-color: var(--carp-color);
+  color: var(--text-color--dark); }
+
+.bg-color--tff_2017 {
+  background-color: var(--blue-color);
+  color: var(--text-color--light); }
+
+.bg-color--lily_in_a_box {
+  background-color: var(--brown-color);
+  color: var(--text-color--light); }
+
+.bg-color--library_lights {
+  background-color: var(--library-color);
+  color: var(--text-color--light); }
+
+h2 {
+  transition: font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 18pt;
+  margin: 0; }
+
+h3 {
+  margin-top: 0; }
+
+.external {
+  align-items: center;
+  color: var(--city-color);
+  display: inline-flex;
+  text-decoration: none; }
+  .external .material-icons {
+    font-size: 14pt; }
+
 :root {
   --carp-color: #ffeb3b;
   --blue-color: #01579b;
   --brown-color: #a1887f;
-  --city-color: #0a0d24;
+  --city_lights: #0a0d24;
   --library-color: #348d85;
   --text-color--dark: #000;
   --text-color--light: #fff;
   --text-color--body: #7b8a91;
   --base-color: #cbcdce;
   --gutter-size: 10px;
-  --img-size: 100px;
-  --header-height: 100px; }
+  --img-size: 70px;
+  --header-height: 90px; }
 
 * {
   box-sizing: border-box; }
@@ -79,45 +115,38 @@ img {
   transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   align-items: center;
   display: flex;
+  height: var(--header-height);
   padding: var(--gutter-size);
   position: sticky;
   top: 10px; }
-  .sticky.bg-color--city_lights {
-    background-color: var(--city-color);
-    color: var(--text-color--light); }
-  .sticky.bg-color--money_carp {
-    background-color: var(--carp-color);
-    color: var(--text-color--dark); }
-  .sticky.bg-color--tff_2017 {
-    background-color: var(--blue-color);
-    color: var(--text-color--light); }
-  .sticky.bg-color--lily_in_a_box {
-    background-color: var(--brown-color); }
-  .sticky.bg-color--library_lights {
-    background-color: var(--library-color);
-    color: var(--text-color--light); }
   .sticky.shadow {
-    box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); }
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
     .sticky.shadow img {
-      box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); }
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+      width: var(--img-size); }
   .sticky img {
     transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid rgba(255, 255, 255, 0.3); }
 
-h2 {
-  font-size: 25pt;
-  margin: 0; }
+.sticky_sentinel {
+  background: yellow;
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* needs dimensions */
+  visibility: hidden; }
 
-h3 {
-  margin-top: 0; }
+.sticky_sentinel--top {
+  /* Adjust the height and top values based on your on your sticky top position.
+    e.g. make the height bigger and adjust the top so observeHeaders()'s
+    IntersectionObserver fires as soon as the bottom of the sentinel crosses the
+    top of the intersection container. */
+  height: 40px;
+  top: -24px; }
 
-a.external {
-  align-items: center;
-  color: var(--city-color);
-  display: inline-flex;
-  text-decoration: none; }
-  a.external .material-icons {
-    font-size: 14pt; }
-
-.sticky.shadow {
-  box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); }
+.sticky_sentinel--bottom {
+  bottom: 0;
+  /* Height should match the top of the header when it's at the bottom of the
+    intersection container. */
+  height: calc(var(--header-height) + var(--gutter-size)); }
