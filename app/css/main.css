@@ -72,6 +72,7 @@ img {
   width: var(--img-size); }
 
 .sticky {
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   align-items: center;
   display: flex;
   padding: var(--gutter-size);
@@ -91,13 +92,14 @@ img {
   .sticky.bg-color--library_lights {
     background-color: var(--library-color);
     color: var(--text-color--light); }
-  .sticky img {
-    border: 1px solid rgba(255, 255, 255, 0.3);
+  .sticky.shadow {
     box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); }
+    .sticky.shadow img {
+      box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); }
+  .sticky img {
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.3); }
 
 h2 {
   font-size: 25pt;
   margin: 0; }
-
-.sticky.shadow {
-  box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); }

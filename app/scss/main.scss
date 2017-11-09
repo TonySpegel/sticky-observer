@@ -1,4 +1,5 @@
 @import '_breakpoints';
+@import '_mixins';
 
 :root {
     // Colors
@@ -97,6 +98,8 @@ img {
 }
 
 .sticky {
+    @include standard-curve(box-shadow, .3s);
+
     &.bg-color--city_lights {
         background-color: var(--city-color);
         color: var(--text-color--light);
@@ -122,9 +125,17 @@ img {
         color: var(--text-color--light);
     }
 
+    &.shadow {
+        @include shadow();
+
+        img {
+            @include shadow();
+        }
+    }
+
     img {
+        @include standard-curve(box-shadow, .3s);
         border: 1px solid rgba(white, 0.3);
-        box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, .12), 0 1px 1px 0   rgba(0, 0, 0, .24);
     }
 
     align-items: center;
@@ -137,8 +148,4 @@ img {
 h2 {
     font-size: 25pt;
     margin: 0;
-}
-
-.sticky.shadow {
-    box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, .12), 0 1px 1px 0   rgba(0, 0, 0, .24);
 }
