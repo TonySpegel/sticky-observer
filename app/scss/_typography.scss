@@ -1,0 +1,20 @@
+h2 {
+    @include standard-curve(font-size, .3s);
+    font-size: 18pt;
+    margin: 0;
+}
+
+h3 {
+    margin-top: 0;
+}
+
+.external {
+    align-items: center;
+    color: var(--city-color);
+    display: inline-flex;
+    text-decoration: none;
+
+    .material-icons {
+        font-size: 14pt;
+    }
+}
