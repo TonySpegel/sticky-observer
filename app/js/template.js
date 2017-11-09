@@ -2,7 +2,7 @@ function createSections(section) {
     const SECTION_NORMALIZED = normalizeSectionNames(section);
     let template =
         `<section>
-            <div class="sticky bg-color--${SECTION_NORMALIZED} shadow">
+            <div class="sticky bg-color--${SECTION_NORMALIZED}">
                 <img src="./img/${SECTION_NORMALIZED}.jpg" alt="${section}" />
                 <h2>${section}</h2>
             </div>
