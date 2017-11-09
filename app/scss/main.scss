@@ -11,6 +11,7 @@
 
     --text-color--dark: #000;
     --text-color--light: #fff;
+    --text-color--body: #7b8a91;
     --base-color: rgb(203, 205, 206);
     // Layout
     --gutter-size: 10px;
@@ -27,6 +28,7 @@ body {
         margin: 0;
     }
 
+    color: var(--text-color--body);
     font-family: 'Roboto', sans-serif;
     margin: calc(var(--gutter-size) * 2) auto;
     max-width: 760px;
@@ -58,38 +60,40 @@ section {
     position: relative;
     text-align: justify;
 }
-
-aside.content {
-    @include max-mobile--l {
-        padding: var(--gutter-size);
-        text-align: center;
-    }
-
-    min-width: 220px;
-    padding: calc(var(--gutter-size) * 2);
-
-    ul {
+aside {
+    &.content {
         @include max-mobile--l {
-            flex-direction: row;
+            padding: var(--gutter-size);
+            text-align: center;
         }
 
-        display: flex;
-        flex-direction: column;
-        list-style: none;
-        padding: 0;
+        min-width: 220px;
+        padding: calc(var(--gutter-size) * 2);
 
-        li {
+        ul {
             @include max-mobile--l {
-                flex-grow: 1;
-                text-align: center;
+                flex-direction: row;
             }
 
-            &.active-section {
-                font-weight: bold;
-            }
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            padding: 0;
 
+            li {
+                @include max-mobile--l {
+                    flex-grow: 1;
+                    text-align: center;
+                }
+
+                &.active-section {
+                    font-weight: bold;
+                }
+            }
         }
     }
+
+    margin-bottom: var(--gutter-size);
 }
 
 img {
@@ -148,4 +152,23 @@ img {
 h2 {
     font-size: 25pt;
     margin: 0;
+}
+
+h3 {
+    margin-top: 0;
+}
+
+a.external {
+    align-items: center;
+    color: var(--city-color);
+    display: inline-flex;
+    text-decoration: none;
+
+    .material-icons {
+        font-size: 14pt;
+    }
+}
+
+.sticky.shadow {
+    box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, .12), 0 1px 1px 0   rgba(0, 0, 0, .24);
 }
