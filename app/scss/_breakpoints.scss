@@ -1,0 +1,51 @@
+// Breakpoints
+// Source: https://davidwalsh.name/write-media-queries-sass
+$bp-mobile--s: 320px;
+$bp-mobile--m: 375px;
+$bp-mobile--l: 425px;
+$bp-tablet: 768px;
+$bp-laptop: 1024px;
+$bp-laptop--l: 1440px;
+
+// Mixins for easy viewport usage.
+// Use them like this:
+// @include max-mobile--s { }
+
+// <= 320px
+@mixin max-mobile--s {
+  @media (max-width: #{$bp-mobile--s}) {
+    @content;
+  }
+}
+
+@mixin max-mobile--l {
+  @media (max-width: #{$bp-mobile--l}) {
+    @content;
+  }
+}
+
+@mixin till-tablet {
+    @media (max-width: #{$bp-tablet}) {
+      @content;
+    }
+}
+
+@mixin mobile--s_tablet {
+  @media (min-width: #{$bp-mobile--s + 1px}) and (max-width: #{$bp-tablet - 1px}) {
+    @content;
+  }
+}
+
+// 768px < 1024px
+@mixin tablet {
+  @media (min-width: #{$bp-tablet}) and (max-width: #{$bp-laptop - 1px}) {
+    @content;
+  }
+}
+
+// >= 1024px
+@mixin desktop {
+  @media (min-width: #{$bp-laptop}) {
+    @content;
+  }
+}

@@ -6,6 +6,7 @@
   --library-color: #348d85;
   --text-color--dark: #000;
   --text-color--light: #fff;
+  --base-color: #cbcdce;
   --gutter-size: 10px;
   --img-size: 100px;
   --header-height: 100px; }
@@ -16,11 +17,19 @@
 body {
   font-family: 'Roboto', sans-serif;
   margin: calc(var(--gutter-size) * 2) auto;
-  max-width: 1024px; }
+  max-width: 760px; }
+  @media (max-width: 425px) {
+    body {
+      margin: 0; } }
 
 main {
   display: flex;
-  height: 90vh; }
+  height: 65vh;
+  border: 1px solid var(--base-color); }
+  @media (max-width: 425px) {
+    main {
+      flex-direction: column;
+      height: 90vh; } }
 
 article {
   background-color: #ECEFF1;
@@ -36,6 +45,28 @@ section {
   position: relative;
   text-align: justify; }
 
+aside.content {
+  min-width: 220px;
+  padding: calc(var(--gutter-size) * 2); }
+  @media (max-width: 425px) {
+    aside.content {
+      padding: var(--gutter-size);
+      text-align: center; } }
+  aside.content ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0; }
+    @media (max-width: 425px) {
+      aside.content ul {
+        flex-direction: row; } }
+    @media (max-width: 425px) {
+      aside.content ul li {
+        flex-grow: 1;
+        text-align: center; } }
+    aside.content ul li.active-section {
+      font-weight: bold; }
+
 img {
   margin-right: var(--gutter-size);
   width: var(--img-size); }
@@ -46,18 +77,18 @@ img {
   padding: var(--gutter-size);
   position: sticky;
   top: 10px; }
-  .sticky.bg--carp {
-    background-color: var(--carp-color);
-    color: var(--text-color--dark); }
-  .sticky.bg--blue {
-    background-color: var(--blue-color);
-    color: var(--text-color--light); }
-  .sticky.bg-lily-box {
-    background-color: var(--brown-color); }
-  .sticky.bg-city-colors {
+  .sticky.bg-color--city_lights {
     background-color: var(--city-color);
     color: var(--text-color--light); }
-  .sticky.bg-library-colors {
+  .sticky.bg-color--money_carp {
+    background-color: var(--carp-color);
+    color: var(--text-color--dark); }
+  .sticky.bg-color--tff_2017 {
+    background-color: var(--blue-color);
+    color: var(--text-color--light); }
+  .sticky.bg-color--lily_in_a_box {
+    background-color: var(--brown-color); }
+  .sticky.bg-color--library_lights {
     background-color: var(--library-color);
     color: var(--text-color--light); }
   .sticky img {

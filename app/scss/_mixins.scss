@@ -1,0 +1,16 @@
+// © 2017-06 Tony Spegel
+// 
+// File is used to define mixins such as often used shadows and transitions
+// 
+// Contributors:
+// Tony Spegel    - Implementation
+
+@mixin shadow() {
+    box-shadow: 
+        0 1px 1.5px 0 rgba(0, 0, 0, .12), 
+        0 1px 1px 0   rgba(0, 0, 0, .24);
+}
+
+@mixin standard-curve($property, $timing) {
+    transition: $property $timing cubic-bezier(0.4, 0.0, 0.2, 1);
+}

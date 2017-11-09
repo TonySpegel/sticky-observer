@@ -1,3 +1,5 @@
+@import '_breakpoints';
+
 :root {
     // Colors
     --carp-color: #ffeb3b;
@@ -8,6 +10,7 @@
 
     --text-color--dark: #000;
     --text-color--light: #fff;
+    --base-color: rgb(203, 205, 206);
     // Layout
     --gutter-size: 10px;
     --img-size: 100px;
@@ -19,14 +22,24 @@
 }
 
 body {
+    @include max-mobile--l {
+        margin: 0;
+    }
+
     font-family: 'Roboto', sans-serif;
     margin: calc(var(--gutter-size) * 2) auto;
-    max-width: 1024px;
+    max-width: 760px;
 }
 
 main {
+    @include max-mobile--l {
+        flex-direction: column;
+        height: 90vh;
+    }
+
     display: flex;
-    height: 90vh;
+    height: 65vh;
+    border: 1px solid #{var(--base-color)};
 }
 
 article {
@@ -45,32 +58,66 @@ section {
     text-align: justify;
 }
 
+aside.content {
+    @include max-mobile--l {
+        padding: var(--gutter-size);
+        text-align: center;
+    }
+
+    min-width: 220px;
+    padding: calc(var(--gutter-size) * 2);
+
+    ul {
+        @include max-mobile--l {
+            flex-direction: row;
+        }
+
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        padding: 0;
+
+        li {
+            @include max-mobile--l {
+                flex-grow: 1;
+                text-align: center;
+            }
+
+            &.active-section {
+                font-weight: bold;
+            }
+
+        }
+    }
+}
+
 img {
     margin-right: var(--gutter-size);
     width: var(--img-size);
 }
 
 .sticky {
-    &.bg--carp {
-        background-color: var(--carp-color);
-        color: var(--text-color--dark);
-    }
-
-    &.bg--blue {
-        background-color: var(--blue-color);
-        color: var(--text-color--light);
-    }
-
-    &.bg-lily-box {
-        background-color: var(--brown-color);
-    }
-
-    &.bg-city-colors {
+    &.bg-color--city_lights {
         background-color: var(--city-color);
         color: var(--text-color--light);
     }
 
-    &.bg-library-colors {
+    &.bg-color--money_carp {
+        background-color: var(--carp-color);
+        color: var(--text-color--dark);
+    }
+
+    &.bg-color--tff_2017 {
+        background-color: var(--blue-color);
+        color: var(--text-color--light);
+    }
+
+    &.bg-color--lily_in_a_box {
+        background-color: var(--brown-color);
+    }
+
+
+    &.bg-color--library_lights {
         background-color: var(--library-color);
         color: var(--text-color--light);
     }
