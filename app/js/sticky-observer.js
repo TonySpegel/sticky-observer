@@ -41,7 +41,6 @@ window.onload = () => {
 
         header.classList.toggle('shadow', stuck);
 
-
         // Select the current list-item inside
         SECTION_LIST_ITEMS.map(listItem =>  {
             const LINK_HREF = listItem.firstElementChild.getAttribute('href').slice(1);
