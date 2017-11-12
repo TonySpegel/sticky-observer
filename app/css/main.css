@@ -18,12 +18,15 @@
   background-color: var(--library-color);
   color: var(--text-color--light); }
 
+h1 {
+  font-size: 20pt; }
+
 h2 {
-  transition: font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 18pt;
   margin: 0; }
 
 h3 {
+  font-size: 16pt;
   margin-top: 0; }
 
 .external {
@@ -44,30 +47,46 @@ h3 {
   --text-color--light: #fff;
   --text-color--body: #7b8a91;
   --base-color: #cbcdce;
+  --highlight-color: #607d8b;
   --gutter-size: 10px;
   --img-size: 70px;
-  --header-height: 90px; }
+  --header-height: 90px;
+  --aside-height: 110px;
+  --box-width: 760px; }
 
 * {
   box-sizing: border-box; }
 
 body {
   color: var(--text-color--body);
+  display: flex;
+  flex-direction: column;
   font-family: 'Roboto', sans-serif;
+  height: 100vh;
   margin: calc(var(--gutter-size) * 2) auto;
-  max-width: 760px; }
+  max-width: var(--box-width); }
   @media (max-width: 425px) {
     body {
       margin: 0; } }
+  body.debug .intersection_area {
+    align-items: center;
+    color: var(--text-color--light);
+    display: flex;
+    justify-content: center;
+    opacity: 0.8;
+    visibility: visible; }
+  body.debug .sticky {
+    z-index: 1; }
 
 main {
+  border: 1px solid var(--base-color);
   display: flex;
   height: 65vh;
-  border: 1px solid var(--base-color); }
+  overflow: auto; }
   @media (max-width: 425px) {
     main {
       flex-direction: column;
-      height: 90vh; } }
+      flex: 1; } }
 
 article {
   background-color: #ECEFF1;
@@ -83,29 +102,60 @@ section {
   position: relative;
   text-align: justify; }
 
-aside {
-  margin-bottom: var(--gutter-size); }
-  aside.content {
-    min-width: 220px;
-    padding: calc(var(--gutter-size) * 2); }
+aside.introduction {
+  padding: 0 calc(var(--gutter-size) * 2);
+  height: var(--aside-height); }
+  aside.introduction h1 {
+    margin: var(--gutter-size) 0 0; }
+
+aside.content {
+  min-width: 220px;
+  padding: calc(var(--gutter-size) * 2);
+  height: 150px; }
+  @media (max-width: 425px) {
+    aside.content {
+      padding: var(--gutter-size);
+      text-align: center; } }
+  aside.content ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0; }
     @media (max-width: 425px) {
-      aside.content {
-        padding: var(--gutter-size);
-        text-align: center; } }
-    aside.content ul {
-      display: flex;
-      flex-direction: column;
-      list-style: none;
-      padding: 0; }
-      @media (max-width: 425px) {
-        aside.content ul {
-          flex-direction: row; } }
+      aside.content ul {
+        flex-direction: row; } }
+    aside.content ul li {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 3px;
+      padding: 3px; }
       @media (max-width: 425px) {
         aside.content ul li {
+          align-items: center;
+          display: flex;
+          flex-basis: 0;
           flex-grow: 1;
+          justify-content: center;
           text-align: center; } }
-      aside.content ul li.active-section {
-        font-weight: bold; }
+      aside.content ul li.active {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+        font-weight: bold;
+        background-color: var(--highlight-color);
+        transform: scale(1.1); }
+        aside.content ul li.active a {
+          color: var(--text-color--light); }
+      aside.content ul li a {
+        color: var(--text-color--body);
+        text-decoration: none; }
+  aside.content h3 {
+    margin: 0; }
+  aside.content #section-list {
+    margin-top: 0; }
+  aside.content .mdl-switch {
+    display: flex; }
+
+@media (max-width: 425px) {
+  aside {
+    box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); } }
 
 img {
   margin-right: var(--gutter-size);
@@ -129,15 +179,14 @@ img {
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid rgba(255, 255, 255, 0.3); }
 
-.sticky_sentinel {
-  background: yellow;
-  position: absolute;
+.intersection_area {
+  background: var(--highlight-color);
   left: 0;
+  position: absolute;
   right: 0;
-  /* needs dimensions */
   visibility: hidden; }
 
-.sticky_sentinel--top {
+.intersection_area--top {
   /* Adjust the height and top values based on your on your sticky top position.
     e.g. make the height bigger and adjust the top so observeHeaders()'s
     IntersectionObserver fires as soon as the bottom of the sentinel crosses the
@@ -145,7 +194,7 @@ img {
   height: 40px;
   top: -24px; }
 
-.sticky_sentinel--bottom {
+.intersection_area--bottom {
   bottom: 0;
   /* Height should match the top of the header when it's at the bottom of the
     intersection container. */

@@ -6,23 +6,23 @@
 
     <title>Intersection Observer</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-light_blue.min.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet">
     <meta name="theme-color" content="#313131">
     <link rel="stylesheet" href="./css/main.css">
-    <style>
-        section {
-            display: inline-block;
-            padding: var(--standard-padding);
-            width: 100%;
-        }
-    </style>
 
-    <script src="./js/sticky-observer.js"></script>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="./js/helper.js"></script>
     <script src="./js/template.js"></script>
+    <script src="./js/sticky-observer.js"></script>
 </head>
 <body>
-    <aside>
+    <!-- <p class="nosupport">
+        Your browser does not support CSS <code>position: sticky</code> or IntersectionObserver!
+    </p> -->
+    <aside class="introduction">
+        <h1>Scrollspy without Scroll-Events</h1>
         This Demo uses the experimental
         <a
             class="external"
@@ -31,17 +31,28 @@
         >
             IntersectionObserver-API
             <i class="material-icons">open_in_new</i>
-        </a> to determine if an element has become sticky.
-        No Scroll-Events or plug-ins are used.
+        </a> to determine if an element has become sticky. (Scroll the content below.)
     </aside>
     <main>
         <!-- Filled w/ JS -->
         <article id="article-section"></article>
 
         <aside class="content">
-            <h3>Content</h3>
             <!-- Filled w/ JS -->
             <ul id="section-list"></ul>
+            <label
+                class="
+                    mdl-switch
+                    mdl-js-switch
+                    mdl-js-ripple-effect
+                "
+                for="debug-mode"
+            >
+                <input type="checkbox" id="debug-mode" class="mdl-switch__input">
+                <span class="mdl-switch__label">
+                    Debug Mode
+                </span>
+            </label>
         </aside>
     </main>
 </body>
