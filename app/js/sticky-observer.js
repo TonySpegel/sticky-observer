@@ -35,11 +35,11 @@ window.onload = () => {
      */
     document.addEventListener('sticky-change', element => {
         // Update sticking header title.
-        const [header, stuck] = [element.detail.target, element.detail.stuck];
+        const [header, sticky] = [element.detail.target, element.detail.sticky];
         const className = element.detail.target.className;
         const HEADING_ID = header.getElementsByTagName('h2')[0].id;
 
-        header.classList.toggle('shadow', stuck);
+        header.classList.toggle('shadow', sticky);
 
         // Select the current list-item inside
         SECTION_LIST_ITEMS.map(listItem =>  {
@@ -88,13 +88,13 @@ function isElementSticky(element) {
 
 /**
  * Dispatches a `sticky-event` custom event on the element.
- * @param {boolean} stuck
- * @param {!Element} target Target element of event.
+ * @param {boolean} sticky True if element is sticky
+ * @param {HTML} target Target element.
  */
-function fireEvent(stuck, target) {
+function fireEvent(sticky, target) {
     const evt = new CustomEvent('sticky-change', {
         detail: {
-            stuck,
+            sticky,
             target
         }}
     );
@@ -123,8 +123,11 @@ function attachIntersectionArea(container, className) {
  */
 function observeHeaders(container) {
     const observer = new IntersectionObserver((records, observer) => {
+        console.log('records: ', records);
+        console.log(observer);
         for (const record of records) {
             const ELEMENT_COORDINATES = record.boundingClientRect;
+            console.log(ELEMENT_COORDINATES);
             const TARGET_ELEMENT = record.target.parentElement.querySelector('.sticky');
             const rootBoundsInfo = record.rootBounds;
 
