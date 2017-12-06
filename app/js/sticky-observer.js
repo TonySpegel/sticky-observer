@@ -9,7 +9,6 @@ window.onload = () => {
 
     const ARTICLE_SECTION = document.querySelector('#article-section');
     const SECTION_LIST = document.querySelector('#section-list');
-
     const THEME_COLOR_TAG = document.querySelector('meta[name=theme-color]');
     let arcticleSectionTemplate = '';
     let sectionListTemplate = '';
@@ -73,17 +72,6 @@ window.onload = () => {
 
 let debugMode = false;
 
-/**
- * Uses getComputedStyle to determine if an element is positioned 'sticky'
- *
- * @param {HTML} element
- * @returns {boolean}
- */
-function isElementSticky(element) {
-    const POSTION_VALUE = getComputedStyle(element).position;
-    return POSTION_VALUE.match('sticky') !== null;
-}
-
 
 /**
  * Dispatches a `sticky-event` custom event on the element.
@@ -101,84 +89,73 @@ function callCustomStickyEvent(sticky, target) {
     document.dispatchEvent(stickyCustomEvent);
 }
 
-/**
- * @param {!Element} container
- * @param {string} className
- */
-function attachIntersectionArea(container, className) {
-    const STICKY_ELEMENTS = Array.from(container.querySelectorAll('.sticky'));
-    return STICKY_ELEMENTS.map(element => {
-        const INTERSECTION_AREA = document.createElement('div');
-        INTERSECTION_AREA.classList.add('intersection_area', className);
-
-        console.log(element.parentElement);
-        return element.parentElement.appendChild(INTERSECTION_AREA);
-    });
-}
 
 /**
- * Sets up an intersection observer to notify when elements with the class
- * `.intersection_area--top` become visible/invisible at the top of the container.
- * @param {!Element} container
+ * Calls callCustomStickyEvent when 'intersection_area--bottom' Elements become visible/invisible
+ * at the top of the container (a section)
+ *
+ * @param {HTML} container
  */
-function observeHeaders(container) {
-    const observer = new IntersectionObserver((records, observer) => {
+function observeTopContainers(container) {
+    const OBSERVER = new IntersectionObserver(records => {
         for (const record of records) {
             const ELEMENT_COORDINATES = record.boundingClientRect;
             const TARGET_ELEMENT = record.target.parentElement.querySelector('.sticky');
-            const rootBoundsInfo = record.rootBounds;
+            const RECORD_ROOTBOUNDS = record.rootBounds;
 
-            if (ELEMENT_COORDINATES.bottom < rootBoundsInfo.top) {
+            if (ELEMENT_COORDINATES.bottom < RECORD_ROOTBOUNDS.top) {
                 callCustomStickyEvent(true, TARGET_ELEMENT);
             }
 
-            if (ELEMENT_COORDINATES.bottom >= rootBoundsInfo.top &&
-                ELEMENT_COORDINATES.bottom < rootBoundsInfo.bottom) {
-                    callCustomStickyEvent(false, TARGET_ELEMENT);
-                }
+            if (
+                ELEMENT_COORDINATES.bottom >= RECORD_ROOTBOUNDS.top &&
+                ELEMENT_COORDINATES.bottom < RECORD_ROOTBOUNDS.bottom
+            ) {
+                callCustomStickyEvent(false, TARGET_ELEMENT);
             }
+        }
     }, {
         threshold: [0],
         root: container
     });
 
     // Add the bottom sentinels to each section and attach an observer.
-    const sentinels = attachIntersectionArea(container, 'intersection_area--top');
-    sentinels.forEach(el => observer.observe(el));
+    const TOP_AREAS = attachIntersectionArea(container, 'intersection_area--top');
+    TOP_AREAS.forEach(el => OBSERVER.observe(el));
 }
 
 /**
- * Sets up an intersection observer to notify when elements with the class
- * `.intersection_area--bottom` become visible/invisible at the botton of the
- * container.
- * @param {!Element} container
+ * Calls callCustomStickyEvent when 'intersection_area--bottom' Elements become visible/invisible
+ * at the bottom of the container (a section)
+ *
+ * @param {HTML} container
  */
-function observeFooters(container) {
-const observer = new IntersectionObserver((records, observer) => {
-    for (const record of records) {
-        const targetInfo = record.boundingClientRect;
-        const stickyTarget = record.target.parentElement.querySelector('.sticky');
-        const rootBoundsInfo = record.rootBounds;
-        const ratio = record.intersectionRatio;
+function observeBottomContainers(container) {
+    const OBSERVER = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+            const ELEMENT_COORDINATES = entry.boundingClientRect;
+            const TARGET_ELEMENT = entry.target.parentElement.querySelector('.sticky');
+            const ENTRY_ROOTBOUNDS = entry.rootBounds;
+            const INTERSECTION_RATIO = entry.intersectionRatio;
 
-        if (targetInfo.bottom > rootBoundsInfo.top && ratio === 1) {
-            callCustomStickyEvent(true, stickyTarget);
-        }
+            if (ELEMENT_COORDINATES.bottom > ENTRY_ROOTBOUNDS.top && INTERSECTION_RATIO === 1) {
+                callCustomStickyEvent(true, TARGET_ELEMENT);
+            }
 
-        if (targetInfo.top < rootBoundsInfo.top &&
-            targetInfo.bottom < rootBoundsInfo.bottom) {
-            callCustomStickyEvent(false, stickyTarget);
+            if (
+                ELEMENT_COORDINATES.top < ENTRY_ROOTBOUNDS.top &&
+                ELEMENT_COORDINATES.bottom < ENTRY_ROOTBOUNDS.bottom
+            ) {
+                callCustomStickyEvent(false, TARGET_ELEMENT);
+            }
         }
-    }
     }, {
-        // Get callback slightly before element is 100% visible/invisible.
-        threshold: [1],
-        root: container
+        root: container,
+        threshold: [1]
     });
 
-    // Add the bottom sentinels to each section and attach an observer.
-    const sentinels = attachIntersectionArea(container, 'intersection_area--bottom');
-    sentinels.forEach(el => observer.observe(el));
+    const BOTTOM_AREAS = attachIntersectionArea(container, 'intersection_area--bottom');
+    BOTTOM_AREAS.forEach(bottomArea => OBSERVER.observe(bottomArea));
 }
 
 /**
@@ -186,6 +163,6 @@ const observer = new IntersectionObserver((records, observer) => {
  * Note: these should be children of the `container` element.
  */
 function notifyWhenStickyHeadersChange(container) {
-    observeHeaders(container);
-    observeFooters(container);
+    observeTopContainers(container);
+    observeBottomContainers(container);
 }

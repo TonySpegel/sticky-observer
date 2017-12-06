@@ -9,7 +9,7 @@ Frameworks wie Bootstrap oder Plug-ins setzen dieses Pattern schon länger mit H
 Bisher gab es keine einfache Möglichkeit zu sagen "Dieses Element ist jetzt für den Nutzer sichtbar"
 oder "Dieses Element ist nun ganz oben". Gelöst wurde dieses Problem dadurch, dass für jeden Pixel den der Nutzer bereits gescrollt hat, überprüft wird, ob die Top-Position der Elemente den gewünschten Wert erreicht haben oder nicht.
 Das diese Art nicht unbedingt effizient ist sollte klar sein, aber wie löst man das ganze besser?
-Unser Retter kommt in Form der [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), einer zurzeit noch experimentellen API und der CSS-Position 'sticky'. Jedes mal wenn eine unserer Teilüberschriften 'sticky' ist, also am oberen Rand klebt, möchten wir diese optisch Hevorheben - durch einen Schatten zum Beispiel und zusätzlich soll diese Überschrift in unserem Seiten-Menü markiert werden. // Das sieht so aus //.
+Unser Retter kommt in Form der [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), einer zurzeit noch experimentellen API und der CSS-Position 'sticky'. Moderne Browser unterstützen diese API bereits, Safari hat noch nichts diesbezüglich implementiert. Jedes mal wenn eine unserer Teilüberschriften 'sticky' ist, also am oberen Rand klebt, möchten wir diese optisch Hevorheben - durch einen Schatten zum Beispiel und zusätzlich soll diese Überschrift in unserem Seiten-Menü markiert werden. // Das sieht so aus //.
 
 ## Vorbereitungen und Dummy-Content
 Um den "Blog" mit etwas Leben zu füllen und Dinge zu vereinfachen, wird dessen Inhalt dynamisch anhand einer Liste von Bezeichnern gefüllt, welche normalisiert in den Templates ausgegeben werden.
@@ -76,4 +76,56 @@ Damit fangen wir vier Zustände ab während der Nutzer scrollt:
 Um diese Container zu überwachen, benötigen wir den Intersection-Observer
 
 ## Intersection-Observer
-##
+Wie bereits erwähnt, müssen wir jeweils zwei Container überwachen, brauchen demnach auch zwei Observer.
+Hier exemplarisch der Observer für die unteren Container.
+
+```
+/**
+ * Calls callCustomStickyEvent when 'intersection_area--bottom' Elements become visible/invisible
+ * at the bottom of the container (a section)
+ *
+ * @param {HTML} container
+ */
+function observeBottomContainers(container) {
+    const OBSERVER = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+            const ELEMENT_COORDINATES = entry.boundingClientRect;
+            const TARGET_ELEMENT = entry.target.parentElement.querySelector('.sticky');
+            const ENTY_ROOTBOUNDS = entry.rootBounds;
+            const INTERSECTION_RATIO = entry.intersectionRatio;
+
+            if (ELEMENT_COORDINATES.bottom > ENTY_ROOTBOUNDS.top && INTERSECTION_RATIO === 1) {
+                callCustomStickyEvent(true, TARGET_ELEMENT);
+            }
+
+            if (
+                ELEMENT_COORDINATES.top < ENTY_ROOTBOUNDS.top &&
+                ELEMENT_COORDINATES.bottom < ENTY_ROOTBOUNDS.bottom
+            ) {
+                callCustomStickyEvent(false, TARGET_ELEMENT);
+            }
+        }
+    }, {
+        root: container,
+        threshold: [1]
+    });
+
+    const BOTTOM_AREAS = attachIntersectionArea(container, 'intersection_area--bottom');
+    BOTTOM_AREAS.forEach(bottomArea => OBSERVER.observe(bottomArea));
+}
+```
+Hier interessant:
+- boundingClientRect: Größe und Position des Containers
+- rootBounds: Größe und Position des umliegenden Dokuments
+- intersectionRatio: Wert zwischen 0 & 1 der angibt wie viel von einem Objekt zu sehen ist
+- root: Das Root-Element welches als Bezugspunkt dient
+- threshold: Gibt an, wieviel von einem Objket sichtbar sein muss, damit es als sichtbar gilt, 1 bedeutet "komplette höhe"
+
+## Weitere Anwendungsfälle
+
+Abschließend noch weitere Anwendungsfälle:
+- Lazy-loading um Bilder zu verzögert nachzuladen
+- Infinite-Scroll um weitere Produkte (oder Blogbeiträge) nachzuladen
+- Genaurere Abrechnung von tatsächlich gesehener Werbung
+
+Viel Spaß, der ganze Code befindet sich hier:

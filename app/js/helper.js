@@ -123,4 +123,18 @@ function toggleDebugMode() {
     sentinels.forEach(el => {
         el.textContent = el.className;
     });
-  }
+}
+
+/**
+ * @param {!Element} container
+ * @param {string} className
+ */
+function attachIntersectionArea(container, className) {
+    const STICKY_ELEMENTS = Array.from(container.querySelectorAll('.sticky'));
+    return STICKY_ELEMENTS.map(element => {
+        const INTERSECTION_AREA = document.createElement('div');
+        INTERSECTION_AREA.classList.add('intersection_area', className);
+
+        return element.parentElement.appendChild(INTERSECTION_AREA);
+    });
+}
