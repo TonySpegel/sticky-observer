@@ -32,7 +32,7 @@ window.onload = () => {
     /**
      *
      */
-    document.addEventListener('sticky-change', element => {
+    document.addEventListener('sticky-state', element => {
         const [header, sticky] = [element.detail.target, element.detail.sticky];
         const CLASS_NAME = element.detail.target.className;
         const HEADING_ID = header.getElementsByTagName('h2')[0].id;
@@ -74,12 +74,13 @@ let debugMode = false;
 
 
 /**
- * Dispatches a `sticky-event` custom event on the element.
+ * Custom event w/ additional properties
+ *
  * @param {boolean} sticky True if element is sticky
  * @param {HTML} target Target element.
  */
 function callCustomStickyEvent(sticky, target) {
-    const stickyCustomEvent = new CustomEvent('sticky-change', {
+    const stickyCustomEvent = new CustomEvent('sticky-state', {
         detail: {
             sticky,
             target

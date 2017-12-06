@@ -12,7 +12,7 @@ Das diese Art nicht unbedingt effizient ist sollte klar sein, aber wie löst man
 Unser Retter kommt in Form der [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), einer zurzeit noch experimentellen API und der CSS-Position 'sticky'. Moderne Browser unterstützen diese API bereits, Safari hat noch nichts diesbezüglich implementiert. Jedes mal wenn eine unserer Teilüberschriften 'sticky' ist, also am oberen Rand klebt, möchten wir diese optisch Hevorheben - durch einen Schatten zum Beispiel und zusätzlich soll diese Überschrift in unserem Seiten-Menü markiert werden. // Das sieht so aus //.
 
 ## Vorbereitungen und Dummy-Content
-Um den "Blog" mit etwas Leben zu füllen und Dinge zu vereinfachen, wird dessen Inhalt dynamisch anhand einer Liste von Bezeichnern gefüllt, welche normalisiert in den Templates ausgegeben werden.
+Um den Beispiel-"Blog" mit etwas Leben zu füllen und Dinge zu vereinfachen, wird dessen Inhalt dynamisch anhand einer Liste von Bezeichnern gefüllt, welche normalisiert in den Templates ausgegeben werden.
 ```
 const SECTIONS = [
     'City Lights',
@@ -51,19 +51,20 @@ Kein Problem, wir schreiben uns einfach unser eigenes Event und binden dieses al
 
 ```
 /**
- * Dispatches a `sticky-event` custom event on the element.
+ * Custom event w/ additional properties
+ *
  * @param {boolean} sticky True if element is sticky
  * @param {HTML} target Target element.
  */
-function fireEvent(sticky, target) {
-    const evt = new CustomEvent('sticky-change', {
+function callCustomStickyEvent(sticky, target) {
+    const stickyCustomEvent = new CustomEvent('sticky-state', {
         detail: {
             sticky,
             target
         }}
     );
 
-    document.dispatchEvent(evt);
+    document.dispatchEvent(stickyCustomEvent);
 }
 ```
 Stattdessen nutzen wir für den Nutzer nicht sichtbare Container die jeweils vor und nach diesem hängen.
