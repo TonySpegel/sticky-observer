@@ -1,3 +1,20 @@
+:root {
+  --carp-color: #ffeb3b;
+  --blue-color: #01579b;
+  --brown-color: #a1887f;
+  --city_lights: #0a0d24;
+  --library-color: #348d85;
+  --text-color--dark: #000;
+  --text-color--light: #fff;
+  --text-color--body: #7b8a91;
+  --base-color: #cbcdce;
+  --highlight-color: #607d8b;
+  --gutter-size: 10px;
+  --img-size: 70px;
+  --header-height: 90px;
+  --aside-height: 110px;
+  --box-width: 760px; }
+
 .bg-color--city_lights {
   background-color: var(--city_lights);
   color: var(--text-color--light); }
@@ -37,23 +54,6 @@ h3 {
   .external .material-icons {
     font-size: 14pt; }
 
-:root {
-  --carp-color: #ffeb3b;
-  --blue-color: #01579b;
-  --brown-color: #a1887f;
-  --city_lights: #0a0d24;
-  --library-color: #348d85;
-  --text-color--dark: #000;
-  --text-color--light: #fff;
-  --text-color--body: #7b8a91;
-  --base-color: #cbcdce;
-  --highlight-color: #607d8b;
-  --gutter-size: 10px;
-  --img-size: 70px;
-  --header-height: 90px;
-  --aside-height: 110px;
-  --box-width: 760px; }
-
 * {
   box-sizing: border-box; }
 
@@ -85,8 +85,8 @@ main {
   overflow: auto; }
   @media (max-width: 425px) {
     main {
-      flex-direction: column;
-      flex: 1; } }
+      flex: 1;
+      flex-direction: column; } }
 
 article {
   background-color: #ECEFF1;
@@ -96,22 +96,22 @@ article {
   will-change: transform; }
 
 section {
-  background-color: #fff;
+  background-color: var(--text-color--light);
   margin-bottom: calc(var(--gutter-size) * 2);
   padding: var(--gutter-size);
   position: relative;
   text-align: justify; }
 
 aside.introduction {
-  padding: 0 calc(var(--gutter-size) * 2);
-  height: var(--aside-height); }
+  height: var(--aside-height);
+  padding: 0 calc(var(--gutter-size) * 2); }
   aside.introduction h1 {
     margin: var(--gutter-size) 0 0; }
 
 aside.content {
+  height: 150px;
   min-width: 220px;
-  padding: calc(var(--gutter-size) * 2);
-  height: 150px; }
+  padding: calc(var(--gutter-size) * 2); }
   @media (max-width: 425px) {
     aside.content {
       padding: var(--gutter-size);
@@ -138,8 +138,8 @@ aside.content {
           text-align: center; } }
       aside.content ul li.active {
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-        font-weight: bold;
         background-color: var(--highlight-color);
+        font-weight: bold;
         transform: scale(1.1); }
         aside.content ul li.active a {
           color: var(--text-color--light); }
@@ -187,15 +187,9 @@ img {
   visibility: hidden; }
 
 .intersection_area--top {
-  /* Adjust the height and top values based on your on your sticky top position.
-    e.g. make the height bigger and adjust the top so observeHeaders()'s
-    IntersectionObserver fires as soon as the bottom of the sentinel crosses the
-    top of the intersection container. */
   height: 40px;
   top: -24px; }
 
 .intersection_area--bottom {
   bottom: 0;
-  /* Height should match the top of the header when it's at the bottom of the
-    intersection container. */
   height: calc(var(--header-height) + var(--gutter-size)); }

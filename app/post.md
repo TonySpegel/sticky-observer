@@ -12,7 +12,7 @@ Das diese Art nicht unbedingt effizient ist sollte klar sein, aber wie löst man
 Unser Retter kommt in Form der [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), einer zurzeit noch experimentellen API und der CSS-Position 'sticky'. Jedes mal wenn eine unserer Teilüberschriften 'sticky' ist, also am oberen Rand klebt, möchten wir diese optisch Hevorheben - durch einen Schatten zum Beispiel und zusätzlich soll diese Überschrift in unserem Seiten-Menü markiert werden. // Das sieht so aus //.
 
 ## Vorbereitungen und Dummy-Content
-Um den "Blog" mit etwas Leben zu füllen und Dinge zu vereinfachen, wird dessen Inhalt dynamisch anhand einer Liste von Bezeichnern gefüllt
+Um den "Blog" mit etwas Leben zu füllen und Dinge zu vereinfachen, wird dessen Inhalt dynamisch anhand einer Liste von Bezeichnern gefüllt, welche normalisiert in den Templates ausgegeben werden.
 ```
 const SECTIONS = [
     'City Lights',
@@ -47,7 +47,7 @@ Einheitliche IDs zu haben ist deswegen wichtig, da wir später die aktuelle Übe
 ## Klebt's?
 
 Wann ist ein Element sticky? Leider gibt es kein Event welches ausgelöst wird, wenn ein Element diesen Zustand erreicht hat.
-Kein Problem, wir schreiben uns einfach unser eigenes Event und binden dieses als Event an das document. Elemente dieser sind auch nicht mehr Teil des Layouts, Berechnungen mit top und ähnlichem fallen also auch flach.
+Kein Problem, wir schreiben uns einfach unser eigenes Event und binden dieses als Event an das document. Diese Elemente sind auch nicht mehr Teil des Layouts, Berechnungen mit top und ähnlichem fallen also auch flach. Um ein eigenes Event zu schreiben, können wir das CustomEvent-Interface nutzen welches einen Bezeichner erwartet und optional über 'detail' die Möglichkeit bietet, zusätzliche Daten mitzugeben. Wir geben über details mit ob und welches Element sticky sein wird.
 
 ```
 /**
@@ -68,11 +68,12 @@ function fireEvent(sticky, target) {
 ```
 Stattdessen nutzen wir für den Nutzer nicht sichtbare Container die jeweils vor und nach diesem hängen.
 Damit fangen wir vier Zustände ab während der Nutzer scrollt:
-1. ↓ Überschrift wird sticky wenn dessen oberer Container die obere Kante des Blog-Beitrags erreicht
-2. ↓ Überschrift ist nicht mehr sticky wenn es die untere Kante des Blogs erreicht hat
-3. ↑ Überschrift ist nicht mehr sticky wenn der obere Container wieder von oben herab in die View gescrollt wird.
-4. ↑ Überschrift wird sticky wenn dessen unterer Container von oben herab in die View kommt
+1. ↑ Überschrift ist nicht mehr sticky wenn der obere Container wieder von oben herab in die View gescrollt wird.
+2. ↑ Überschrift wird sticky wenn dessen unterer Container von oben herab in die View kommt
+3. ↓ Überschrift wird sticky wenn dessen oberer Container die obere Kante des Blog-Beitrags erreicht
+4. ↓ Überschrift ist nicht mehr sticky wenn es die untere Kante des Blogs erreicht hat
 
 Um diese Container zu überwachen, benötigen wir den Intersection-Observer
 
 ## Intersection-Observer
+##

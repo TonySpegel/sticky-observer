@@ -1,32 +1,33 @@
-@import '_breakpoints';
-@import '_mixins';
-@import '_helper';
-@import '_typography';
-
 :root {
     // Colors
-    --carp-color: #ffeb3b;
-    --blue-color: #01579b;
-    --brown-color: #a1887f;
-    --city_lights: #0a0d24;
-    --library-color: #348d85;
+    #{--carp-color}: #ffeb3b;
+    #{--blue-color}: #01579b;
+    #{--brown-color}: #a1887f;
+    #{--city_lights}: #0a0d24;
+    #{--library-color}: #348d85;
 
-    --text-color--dark: #000;
-    --text-color--light: #fff;
-    --text-color--body: #7b8a91;
-    --base-color: rgb(203, 205, 206);
-    --highlight-color: #607d8b;
+    #{--text-color--dark}: #000;
+    #{--text-color--light}: #fff;
+    #{--text-color--body}: #7b8a91;
+    #{--base-color}: rgb(203, 205, 206);
+    #{--highlight-color}: #607d8b;
 
     // Layout
-    --gutter-size: 10px;
-    --img-size: 70px;
-    --header-height: 90px;
-    --aside-height: 110px;
-    --box-width: 760px;
+    #{--gutter-size}: 10px;
+    #{--img-size}: 70px;
+    #{--header-height}: 90px;
+    #{--aside-height}: 110px;
+    #{--box-width}: 760px;
 }
 
+@import 'breakpoints';
+@import 'mixins';
+@import 'helper';
+@import 'typography';
+
+
 *  {
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 body {
@@ -60,8 +61,8 @@ body {
 
 main {
     @include max-mobile--l {
-        flex-direction: column;
         flex: 1;
+        flex-direction: column;
     }
 
     border: 1px solid #{var(--base-color)};
@@ -79,7 +80,7 @@ article {
 }
 
 section {
-    background-color: #fff;
+    background-color: var(--text-color--light);
     margin-bottom: calc(var(--gutter-size) * 2);
     padding: var(--gutter-size);
     position: relative;
@@ -88,8 +89,8 @@ section {
 
 aside {
     &.introduction {
-        padding: 0 calc(var(--gutter-size) * 2);
         height: var(--aside-height);
+        padding: 0 calc(var(--gutter-size) * 2);
 
         h1 {
             margin: var(--gutter-size) 0 0;
@@ -102,9 +103,9 @@ aside {
             text-align: center;
         }
 
+        height: 150px;
         min-width: 220px;
         padding: calc(var(--gutter-size) * 2);
-        height: 150px;
 
         ul {
             @include max-mobile--l {
@@ -135,8 +136,8 @@ aside {
                         color: var(--text-color--light);
                     }
 
-                    font-weight: bold;
                     background-color: var(--highlight-color);
+                    font-weight: bold;
                     transform: scale(1.1);
                 }
 
@@ -208,17 +209,11 @@ img {
 }
 
 .intersection_area--top {
-    /* Adjust the height and top values based on your on your sticky top position.
-    e.g. make the height bigger and adjust the top so observeHeaders()'s
-    IntersectionObserver fires as soon as the bottom of the sentinel crosses the
-    top of the intersection container. */
     height: 40px;
     top: -24px;
 }
 
 .intersection_area--bottom {
     bottom: 0;
-    /* Height should match the top of the header when it's at the bottom of the
-    intersection container. */
     height: calc(var(--header-height) + var(--gutter-size));
 }

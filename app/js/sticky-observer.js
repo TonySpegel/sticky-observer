@@ -7,36 +7,35 @@ window.onload = () => {
         'Library Lights',
     ];
 
-
-    shuffle(SECTIONS);
-
     const ARTICLE_SECTION = document.querySelector('#article-section');
     const SECTION_LIST = document.querySelector('#section-list');
+
+    const THEME_COLOR_TAG = document.querySelector('meta[name=theme-color]');
     let arcticleSectionTemplate = '';
     let sectionListTemplate = '';
 
+    shuffle(SECTIONS);
+
+    // Create HTML-Templates
     SECTIONS.forEach(section => {
         arcticleSectionTemplate += createSections(section);
         sectionListTemplate += createSectionList(section);
     });
 
+    // Create HTML-Templates
     ARTICLE_SECTION.insertAdjacentHTML('beforeend', arcticleSectionTemplate);
     SECTION_LIST.insertAdjacentHTML('beforeend', sectionListTemplate);
 
-    const container = document.querySelector('#article-section');
-    notifyWhenStickyHeadersChange(container);
+    const SECTION_LIST_ITEMS = Array.from(document.querySelectorAll('#section-list .section-list-item'));
 
-    const THEME_COLOR_TAG = document.querySelector('meta[name=theme-color]');
-    const SECTION_LIST_ITEM = document.querySelectorAll('#section-list .section-list-item');
-    const SECTION_LIST_ITEMS = Array.from(SECTION_LIST_ITEM);
+    notifyWhenStickyHeadersChange(ARTICLE_SECTION);
 
     /**
      *
      */
     document.addEventListener('sticky-change', element => {
-        // Update sticking header title.
         const [header, sticky] = [element.detail.target, element.detail.sticky];
-        const className = element.detail.target.className;
+        const CLASS_NAME = element.detail.target.className;
         const HEADING_ID = header.getElementsByTagName('h2')[0].id;
 
         header.classList.toggle('shadow', sticky);
@@ -48,7 +47,7 @@ window.onload = () => {
             listItem.classList.toggle('active', LINK_HREF === HEADING_ID);
         });
 
-        setThemeColor(className, THEME_COLOR_TAG)
+        setThemeColor(CLASS_NAME, THEME_COLOR_TAG);
     });
 
     /**
@@ -91,15 +90,15 @@ function isElementSticky(element) {
  * @param {boolean} sticky True if element is sticky
  * @param {HTML} target Target element.
  */
-function fireEvent(sticky, target) {
-    const evt = new CustomEvent('sticky-change', {
+function callCustomStickyEvent(sticky, target) {
+    const stickyCustomEvent = new CustomEvent('sticky-change', {
         detail: {
             sticky,
             target
         }}
     );
 
-    document.dispatchEvent(evt);
+    document.dispatchEvent(stickyCustomEvent);
 }
 
 /**
@@ -112,6 +111,7 @@ function attachIntersectionArea(container, className) {
         const INTERSECTION_AREA = document.createElement('div');
         INTERSECTION_AREA.classList.add('intersection_area', className);
 
+        console.log(element.parentElement);
         return element.parentElement.appendChild(INTERSECTION_AREA);
     });
 }
@@ -123,21 +123,18 @@ function attachIntersectionArea(container, className) {
  */
 function observeHeaders(container) {
     const observer = new IntersectionObserver((records, observer) => {
-        console.log('records: ', records);
-        console.log(observer);
         for (const record of records) {
             const ELEMENT_COORDINATES = record.boundingClientRect;
-            console.log(ELEMENT_COORDINATES);
             const TARGET_ELEMENT = record.target.parentElement.querySelector('.sticky');
             const rootBoundsInfo = record.rootBounds;
 
             if (ELEMENT_COORDINATES.bottom < rootBoundsInfo.top) {
-                fireEvent(true, TARGET_ELEMENT);
+                callCustomStickyEvent(true, TARGET_ELEMENT);
             }
 
             if (ELEMENT_COORDINATES.bottom >= rootBoundsInfo.top &&
                 ELEMENT_COORDINATES.bottom < rootBoundsInfo.bottom) {
-                    fireEvent(false, TARGET_ELEMENT);
+                    callCustomStickyEvent(false, TARGET_ELEMENT);
                 }
             }
     }, {
@@ -165,12 +162,12 @@ const observer = new IntersectionObserver((records, observer) => {
         const ratio = record.intersectionRatio;
 
         if (targetInfo.bottom > rootBoundsInfo.top && ratio === 1) {
-            fireEvent(true, stickyTarget);
+            callCustomStickyEvent(true, stickyTarget);
         }
 
         if (targetInfo.top < rootBoundsInfo.top &&
             targetInfo.bottom < rootBoundsInfo.bottom) {
-            fireEvent(false, stickyTarget);
+            callCustomStickyEvent(false, stickyTarget);
         }
     }
     }, {
