@@ -91,18 +91,20 @@ function observeBottomContainers(container) {
         for (const entry of entries) {
             const ELEMENT_COORDINATES = entry.boundingClientRect;
             const TARGET_ELEMENT = entry.target.parentElement.querySelector('.sticky');
-            const ENTY_ROOTBOUNDS = entry.rootBounds;
+            const ENTRY_ROOTBOUNDS = entry.rootBounds;
             const INTERSECTION_RATIO = entry.intersectionRatio;
 
-            if (ELEMENT_COORDINATES.bottom > ENTY_ROOTBOUNDS.top && INTERSECTION_RATIO === 1) {
-                callCustomStickyEvent(true, TARGET_ELEMENT);
-            }
-
+            // unsticky
             if (
-                ELEMENT_COORDINATES.top < ENTY_ROOTBOUNDS.top &&
-                ELEMENT_COORDINATES.bottom < ENTY_ROOTBOUNDS.bottom
+                ELEMENT_COORDINATES.top < ENTRY_ROOTBOUNDS.top &&
+                ELEMENT_COORDINATES.bottom < ENTRY_ROOTBOUNDS.bottom
             ) {
                 callCustomStickyEvent(false, TARGET_ELEMENT);
+            }
+
+            // sticky
+            if (ELEMENT_COORDINATES.bottom > ENTRY_ROOTBOUNDS.top && INTERSECTION_RATIO === 1) {
+                callCustomStickyEvent(true, TARGET_ELEMENT);
             }
         }
     }, {
